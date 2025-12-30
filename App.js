@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import htm from 'htm';
 import { GameStatus } from './types.js';
