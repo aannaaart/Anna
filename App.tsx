@@ -2,42 +2,36 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GameStatus } from './types';
 
+// Define the interface for game effects to fix "known properties" errors
+interface Effect {
+  id: number;
+  x: number;
+  y: number;
+  type: string;
+  color?: string;
+  content?: string;
+}
+
 const CHARACTER_IMAGES = [
   "https://media.discordapp.net/attachments/1207985815070842933/1455369310167109632/TE1.png?ex=695479ca&is=6953284a&hm=b55aafdd0700154d1d477672d3240ea2e259a3b67d79171b622b90dc9267694a&=&format=webp&quality=lossless",
   "https://media.discordapp.net/attachments/1207985815070842933/1455369723536605255/TE2.png?ex=69547a2d&is=695328ad&hm=cd42d0e6d320f91ee67449c47d5232ca6e133f2f748fc37f52b14e3f08d77994&=&format=webp&quality=lossless"
 ];
 
-interface VisualEffect {
-  id: number;
-  x: number;
-  y: number;
-  type: 'sparkle' | 'text';
-  color?: 'blue' | 'red';
-  content?: string;
-}
-
-interface Fortune {
-  title: string;
-  sub: string;
-  rank: string;
-  color: string;
-}
-
-const FORTUNES_DATA: Fortune[] = [
+const FORTUNES_DATA = [
   // S RANK (0-10) - 最強運、最速
   { title: "運氣逆天家長", sub: "貓辣妹看著你跨越時產生的時空裂縫，決定封你為「星際執行官」，你呼出的氣息都變成了金色的流星。", rank: "S1", color: "#FFD700" },
   { title: "速度超快家長", sub: "貓辣妹驚呼你已化身光子恐龍！你剛才的一小步是 2026 年物理規律的一大步，所有行星都將為你停轉。", rank: "S2", color: "#FFD700" },
   { title: "神級好運家長", sub: "貓辣妹為你點燃了永恆之火。你這跨越姿態直接重塑了亞特蘭提斯的遺產，你就是新紀元的創世神。", rank: "S3", color: "#FFD700" },
   { title: "絕對王者家長", sub: "貓辣妹親自為你披上銀河羽衣。她說你這種能在次元間跳躍的恐龍，註定要在 2026 年統治整個魔法位面。", rank: "S4", color: "#FFD700" },
   { title: "天選之人家長", sub: "貓辣妹在你跨越的那一刻，聽到了遠古巨龍的龍鳴。她宣佈你已獲得永生不滅的魔法契印，好運永駐。", rank: "S5", color: "#FFD700" },
-  { title: "全服最強家長", sub: "貓辣妹看見你腳下開出了透明的時空之花。她驚嘆你這種超自然的速度，簡直是讓宇宙意志都感到戰慄的奇蹟。", rank: "S6", color: "#FFD700" },
+  { title: "全服最強家長", sub: "貓辣妹看見你腳下開出了透明的時空之花。她驚嘆你這種超自然的速度，簡真是讓宇宙意志都感到戰慄的奇蹟。", rank: "S6", color: "#FFD700" },
   { title: "歐氣滿滿家長", sub: "貓辣妹將 2026 年的月亮變成了一顆巨大的藍鑽送給你。她說你跨越時的龍鱗閃光，是她見過最純淨的魔力來源。", rank: "S7", color: "#FFD700" },
   { title: "奇蹟化身家長", sub: "貓辣妹決定讓你成為宇宙的中心點。因為你跨越的速度太快，2025 年的時間線已經被你擰成了麻花狀。", rank: "S8", color: "#FFD700" },
   { title: "手速飛快家長", sub: "貓辣妹發現你體內的恐龍之心正在與銀河核心共振。她預言 2026 年只要你揮揮手，全世界的寶藏都會飛向你。", rank: "S9", color: "#FFD700" },
   { title: "宇宙最強家長", sub: "貓辣妹被你的威壓震攝住了！她決定把 2026 年的重力控制權交給你，你可以隨意在天空中奔跑、在星海中潛水。", rank: "S10", color: "#FFD700" },
 
-  // A RANK (11-20) - 優秀
-  { title: "運氣極佳家長", sub: "貓辣妹送你一瓶「龍息聖水」。她說你跨越時的步伐充滿了自然的翡翠能量，2026 年你將是森林的守護神。", rank: "A1", color: "#94a3b8" },
+  // A RANK (11-20)
+  { title: "運氣極佳家長", sub: "貓辣妹送你一瓶「龍息聖水」。她說你跨越時的步伐充滿了自然的翡翠能量， 2026 年你將是森林的守護神。", rank: "A1", color: "#94a3b8" },
   { title: "動作俐落家長", sub: "貓辣妹幫你拍了一張「次元跨越」照片。她說你的動作優雅如暗夜的黑豹恐龍，2026 年你會活得非常灑脫。", rank: "A2", color: "#94a3b8" },
   { title: "卓越不凡家長", sub: "貓辣妹發現你身後跟著一群透明的精靈。她說這些精靈是被你的龍威吸引，將在 2026 年為你祈求一整年的平安。", rank: "A3", color: "#94a3b8" },
   { title: "順風順水家長", sub: "貓辣妹為你召喚了一陣帶香氣的魔法微風。她說 2026 年你只需要跟著風走，就能找到隱藏在雲端的黃金宮殿。", rank: "A4", color: "#94a3b8" },
@@ -48,7 +42,7 @@ const FORTUNES_DATA: Fortune[] = [
   { title: "前途光明家長", sub: "貓辣妹看見 2026 年的地平線因為你的到來而變成了粉紅色。她說這是極其罕見的奇觀，象徵著極致的豐收。", rank: "A9", color: "#94a3b8" },
   { title: "反應靈敏家長", sub: "貓辣妹丟給你一顆「幻獸蛋」。她說你這種充滿魔力的跨越法，最適合孵化出傳說中的五彩翼龍，祝你好運。", rank: "A10", color: "#94a3b8" },
 
-  // B RANK (21-30) - 穩健
+  // B RANK (21-30)
   { title: "普通好運家長", sub: "貓辣妹打了一個哈欠，但還是禮貌地給了你一顆魔法糖果。她說雖然你走得一般，但至少沒掉進黑洞裡。", rank: "B1", color: "#b45309" },
   { title: "穩扎穩打家長", sub: "貓辣妹看你跑得滿頭大汗。她決定在 2026 年送你一雙「不累靴子」，讓你的恐龍生活能過得更輕鬆一點。", rank: "B2", color: "#b45309" },
   { title: "平凡之路家長", sub: "貓辣妹覺得你很有古龍的沉穩氣息。她告訴你 2026 年雖然沒有驚天動地的冒險，但會過得像岩石一樣安穩。", rank: "B3", color: "#b45309" },
@@ -60,7 +54,7 @@ const FORTUNES_DATA: Fortune[] = [
   { title: "小確幸家長", sub: "貓辣妹送你一個「不會響的鬧鐘」。她說 2026 年你不需要跟時間賽跑，隨便跨過來就是你的勝利了。", rank: "B9", color: "#b45309" },
   { title: "慢慢進步家長", sub: "貓辣妹在終點打了半天瞌睡才等到你。她送你一根「慢速法杖」，她說既然快不了，那就讓全世界陪你一起變慢。", rank: "B10", color: "#b45309" },
 
-  // C RANK (31-40) - 掙扎
+  // C RANK (31-40)
   { title: "運氣偏差家長", sub: "貓辣妹看你一腳踩進了「迷失軟泥」。她吐槽你這頭龍是不是在 2025 年吃太多魔法蛋糕了，重到跑不動。", rank: "C1", color: "#2563eb" },
   { title: "有點吃力家長", sub: "貓辣妹幫你拔出卡在次元縫隙裡的尾巴。她警告你 2026 年別再隨便去撞時空牆壁了，這很傷身體。", rank: "C2", color: "#2563eb" },
   { title: "勉勉強強家長", sub: "貓辣妹拿出一張「低階通行證」。她說你的速度只能進入 2026 年的地下鐵道，那裡住著一群會說話的灰塵精靈。", rank: "C3", color: "#2563eb" },
@@ -72,7 +66,7 @@ const FORTUNES_DATA: Fortune[] = [
   { title: "走錯路家長", sub: "貓辣妹無奈地指出終點在右邊，而你剛才差點跑進了左邊的「虛無之海」。2026 年請隨身攜帶指南針。", rank: "C9", color: "#2563eb" },
   { title: "辛苦報到家長", sub: "貓辣妹看你跨過線時，衣服都被次元風暴撕爛了。她送你一件「乞丐魔袍」，她說這在 2026 年的廢土界很流行。", rank: "C10", color: "#2563eb" },
 
-  // D RANK (41-50) - 衰運
+  // D RANK (41-50)
   { title: "運氣極差家長", sub: "貓辣妹已經把 2026 年的大門鎖上了一半。她冷漠地看著你，說你這動作慢得像是被詛咒了兩萬年的石像。", rank: "D1", color: "#64748b" },
   { title: "倒楣鬼家長", sub: "貓辣妹告訴你一個鬼故事：你跨越時踩壞了貓女神最愛的貓砂盆。2026 年你可能要面對無窮無盡的貓爪攻擊。", rank: "D2", color: "#64748b" },
   { title: "速度超慢家長", sub: "貓辣妹把你製成了「靜止畫」。她說你這種慢速恐龍在 2026 年唯一的用途，就是掛在客廳當作時間靜止的標本。", rank: "D3", color: "#64748b" },
@@ -85,15 +79,16 @@ const FORTUNES_DATA: Fortune[] = [
   { title: "彻底擺爛家長", sub: "貓辣妹把你丟進了次元垃圾桶。她說既然你連點擊都這麼無力，那就去垃圾桶裡研究如何變成一粒健康的原子吧。", rank: "D10", color: "#64748b" }
 ];
 
-const App: React.FC = () => {
-  const [status, setStatus] = useState<GameStatus>(GameStatus.START);
+const App = () => {
+  const [status, setStatus] = useState(GameStatus.START);
   const [playerName, setPlayerName] = useState('');
   const [position, setPosition] = useState(15);
   const [time, setTime] = useState(0);
   const [isJumping, setIsJumping] = useState(false);
   const [currentJumpHeight, setCurrentJumpHeight] = useState(60);
   const [imgIndex, setImgIndex] = useState(0);
-  const [effects, setEffects] = useState<VisualEffect[]>([]);
+  // Fix: Use explicit type for effects state
+  const [effects, setEffects] = useState<Effect[]>([]);
   
   const finishLinePercent = 75;
   const timerRef = useRef<number | null>(null);
@@ -137,7 +132,8 @@ const App: React.FC = () => {
 
     const nextPos = Math.max(5, position + moveStep);
     
-    const newEffects: VisualEffect[] = [
+    // Fix: Explicitly type newEffects as Effect[] to allow optional color and content fields
+    const newEffects: Effect[] = [
       { id: Date.now(), x: nextPos, y: 80, type: 'sparkle' },
     ];
     
@@ -216,7 +212,7 @@ const App: React.FC = () => {
     setEffects([]);
   };
 
-  const getFortune = (s: number): Fortune => {
+  const getFortune = (s: number) => {
     let index = Math.floor(s / 0.5); 
     if (index >= FORTUNES_DATA.length) index = FORTUNES_DATA.length - 1;
     return FORTUNES_DATA[index];
@@ -296,8 +292,9 @@ const App: React.FC = () => {
           style={{ 
             left: `${position}%`,
             transform: 'translateX(-50%)',
-            ['--jump-height' as any]: `-${currentJumpHeight}px`
-          } as React.CSSProperties}
+            // Fix: Cast style object to any to allow CSS custom properties in TypeScript
+            '--jump-height': `-${currentJumpHeight}px`
+          } as any}
         >
           <div className={`${isJumping ? 'animate-kuuki-hop' : ''}`}>
              <div className="relative flex flex-col items-center">
