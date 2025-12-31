@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import htm from 'htm';
 import { GameStatus } from './types.js';
@@ -5,28 +6,23 @@ import { GameStatus } from './types.js';
 const html = htm.bind(React.createElement);
 
 const CHARACTER_IMAGES = [
-  "https://raw.githubusercontent.com/aannaaart/Anna/main/TE1.png",
-  "https://raw.githubusercontent.com/aannaaart/Anna/main/TE2.png"
+  "https://github.com/aannaaart/Anna/raw/main/TE1.png",
+  "https://github.com/aannaaart/Anna/raw/main/TE2.png"
 ];
 
-// 50 unique dinosaur parent themed fortunes, organized from best to worst
+// 50 unique dinosaur parent themed fortunes
 const FORTUNES_DATA = [
-  /* SSR+ (Divine: < 3.0s) - Index 0-4 */
   { title: "歐皇恐龍家長", sub: "2026 年你的運氣已突破次元壁，這速度連貓辣妹都跪了！", rank: "SSR+", color: "#FF0080" },
   { title: "神速恐龍家長", sub: "你不是在點擊，你是在撕裂時空！2026 全宇宙都是你的遊樂場。", rank: "SSR+", color: "#FF0080" },
   { title: "跨位面恐龍家長", sub: "2026 年所有的彩券行都會掛上你的照片，因為你太歐了！", rank: "SSR+", color: "#FF0080" },
   { title: "天選恐龍家長", sub: "你是被 2026 年選中的那個人，連空氣都為你讓路。", rank: "SSR+", color: "#FF0080" },
   { title: "宇宙主宰恐龍家長", sub: "貓辣妹決定讓你直接當 2026 年的總代理，好運隨你發放。", rank: "SSR+", color: "#FF0080" },
-
-  /* SSR (Legendary: 3.0s - 5.0s) - Index 5-10 */
   { title: "黃金恐龍家長", sub: "2026 年你走過的路都會變成金幣，這就是頂級家長的霸氣。", rank: "SSR", color: "#FFD700" },
   { title: "閃光恐龍家長", sub: "你的存在就是一道光！2026 年所有霉運看到你都要戴墨鏡。", rank: "SSR", color: "#FFD700" },
   { title: "霸氣恐龍家長", sub: "貓辣妹說你的氣場已經覆蓋了整個 2026，沒人敢惹你。", rank: "SSR", color: "#FFD700" },
   { title: "凱旋恐龍家長", sub: "旗開得勝！2026 年你的每一天都是慶功宴。", rank: "SSR", color: "#FFD700" },
   { title: "皇家恐龍家長", sub: "這種優雅與速度的結合，2026 年註定是大富大貴之年。", rank: "SSR", color: "#FFD700" },
   { title: "傳說恐龍家長", sub: "貓辣妹幫你寫了一本自傳，標題是《如何在 2026 躺著贏》。", rank: "SSR", color: "#FFD700" },
-
-  /* SR (Super Rare: 5.0s - 8.0s) - Index 11-20 */
   { title: "咆哮恐龍家長", sub: "2026 年你的聲音會被聽見，那是好運在向你招手！", rank: "SR", color: "#A855F7" },
   { title: "守護恐龍家長", sub: "你在 2026 年會成為大家的幸運符，記得收服務費。", rank: "SR", color: "#A855F7" },
   { title: "疾風恐龍家長", sub: "風起雲湧！2026 年你的效率會讓同事們集體失業。", rank: "SR", color: "#A855F7" },
@@ -37,8 +33,6 @@ const FORTUNES_DATA = [
   { title: "榮耀恐龍家長", sub: "貓辣妹為你戴上 2026 的勳章，你是全家的驕傲。", rank: "SR", color: "#A855F7" },
   { title: "執念恐龍家長", sub: "你的堅持讓 2026 年不得不給你最好的資源。", rank: "SR", color: "#A855F7" },
   { title: "暴走恐龍家長", sub: "一旦認真起來誰都擋不住，2026 年準備大顯身手吧！", rank: "SR", color: "#A855F7" },
-
-  /* R (Rare: 8.0s - 15.0s) - Index 21-35 */
   { title: "認真恐龍家長", sub: "2026 年雖然不是最快的，但你的一絲不苟會帶來財富。", rank: "R", color: "#3B82F6" },
   { title: "糾結恐龍家長", sub: "別想太多了，2026 年直接衝就對了！貓辣妹在終點等你。", rank: "R", color: "#3B82F6" },
   { title: "碎念恐龍家長", sub: "2026 年靠嘴就能發財，建議你可以考慮去當網紅。", rank: "R", color: "#3B82F6" },
@@ -54,8 +48,6 @@ const FORTUNES_DATA = [
   { title: "迷糊恐龍家長", sub: "傻人有傻福，2026 年你可能會莫名其妙中大獎。", rank: "R", color: "#3B82F6" },
   { title: "焦慮恐龍家長", sub: "放輕鬆！2026 年貓辣妹會幫你搞定所有的麻煩事。", rank: "R", color: "#3B82F6" },
   { title: "孤傲恐龍家長", sub: "2026 年你有自己的節奏，不需要向任何人解釋。", rank: "R", color: "#3B82F6" },
-
-  /* N (Normal: > 15.0s) - Index 36-49 */
   { title: "慢郎中恐龍家長", sub: "你在 2025 的尾巴待太久了，2026 的車都開走啦！", rank: "N", color: "#64748B" },
   { title: "邊緣恐龍家長", sub: "貓辣妹找你找好久，原來你還在那邊慢慢爬。", rank: "N", color: "#64748B" },
   { title: "躺平恐龍家長", sub: "2026 年你決定跟地板做朋友，運氣也跟著你躺下了。", rank: "N", color: "#64748B" },
@@ -107,16 +99,13 @@ const App = () => {
     };
   }, [status]);
 
-  // Deterministic mapping: one time range = one unique result
   const determineFortune = (s) => {
-    // Divine (SSR+): < 3.0s
     if (s < 1.0) return FORTUNES_DATA[0];
     if (s < 1.5) return FORTUNES_DATA[1];
     if (s < 2.0) return FORTUNES_DATA[2];
     if (s < 2.5) return FORTUNES_DATA[3];
     if (s < 3.0) return FORTUNES_DATA[4];
 
-    // Legendary (SSR): 3.0s - 5.0s
     if (s < 3.4) return FORTUNES_DATA[5];
     if (s < 3.8) return FORTUNES_DATA[6];
     if (s < 4.2) return FORTUNES_DATA[7];
@@ -124,21 +113,18 @@ const App = () => {
     if (s < 5.0) return FORTUNES_DATA[9];
     if (s < 5.4) return FORTUNES_DATA[10];
 
-    // Super Rare (SR): 5.0s - 8.0s
     const srBase = 11;
     if (s < 8.0) {
       const offset = Math.min(9, Math.floor((s - 5.4) / 0.3));
       return FORTUNES_DATA[srBase + offset] || FORTUNES_DATA[20];
     }
 
-    // Rare (R): 8.0s - 15.0s
     const rBase = 21;
     if (s < 15.0) {
       const offset = Math.min(14, Math.floor((s - 8.0) / 0.5));
       return FORTUNES_DATA[rBase + offset] || FORTUNES_DATA[35];
     }
 
-    // Normal (N): > 15.0s
     const nBase = 36;
     const offset = Math.min(13, Math.floor((s - 15.0) / 1.0));
     return FORTUNES_DATA[nBase + offset] || FORTUNES_DATA[49];
@@ -149,27 +135,16 @@ const App = () => {
 
     const rand = Math.random();
     let moveStep = 0;
-
-    // Movement logic
-    if (rand < 0.45) {
-      moveStep = Math.floor(Math.random() * 15) + 5; 
-    } else if (rand < 0.85) {
-      moveStep = -(Math.floor(Math.random() * 12) + 2); 
-    } else {
-      moveStep = 0; 
-    }
+    if (rand < 0.45) moveStep = Math.floor(Math.random() * 15) + 5; 
+    else if (rand < 0.85) moveStep = -(Math.floor(Math.random() * 12) + 2); 
 
     const randomHeight = Math.floor(Math.random() * 41) + 30;
     setCurrentJumpHeight(randomHeight);
-
     const nextPos = Math.max(5, position + moveStep);
     
     const newEffects = [{ id: Date.now(), x: nextPos, y: 80, type: 'sparkle' }];
-    if (moveStep > 0) {
-      newEffects.push({ id: Date.now() + 1, x: nextPos, y: 75, type: 'text', color: 'blue', content: "咻!" });
-    } else if (moveStep < 0) {
-      newEffects.push({ id: Date.now() + 2, x: nextPos, y: 75, type: 'text', color: 'red', content: "咚!" });
-    }
+    if (moveStep > 0) newEffects.push({ id: Date.now() + 1, x: nextPos, y: 75, type: 'text', color: 'blue', content: "咻!" });
+    else if (moveStep < 0) newEffects.push({ id: Date.now() + 2, x: nextPos, y: 75, type: 'text', color: 'red', content: "咚!" });
     
     setEffects(prev => [...prev, ...newEffects]);
     setTimeout(() => {
@@ -178,17 +153,13 @@ const App = () => {
 
     setPosition(nextPos);
     setIsJumping(true);
-    
     if (nextPos >= finishLinePercent) {
       const winTime = time;
       setFinalTime(winTime);
       setFinalFortune(determineFortune(winTime));
       setStatus(GameStatus.WIN);
     }
-
-    setTimeout(() => {
-      setIsJumping(false);
-    }, 350); 
+    setTimeout(() => setIsJumping(false), 350); 
   };
 
   useEffect(() => {
@@ -224,13 +195,16 @@ const App = () => {
       ${status === GameStatus.START && html`
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-white p-4">
           <div className="max-w-md w-full bg-white border-[6px] border-black p-8 shadow-[16px_16px_0px_#000] space-y-8 animate-in fade-in zoom-in duration-300">
-            <div className="space-y-2 text-center">
-              <p className="text-xl font-black text-slate-400 tracking-widest animate-pulse">
-                沒有訣竅 全憑運氣
-              </p>
-              <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter leading-none">
-                跨越 2025...
-              </h1>
+            <div className="flex flex-col items-center space-y-4">
+               <img src=${CHARACTER_IMAGES[0]} alt="Preview" className="character-img" />
+               <div className="space-y-2 text-center">
+                 <p className="text-xl font-black text-slate-400 tracking-widest animate-pulse">
+                   沒有訣竅 全憑運氣
+                 </p>
+                 <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter leading-none">
+                   跨越 2025...
+                 </h1>
+               </div>
             </div>
             <div className="space-y-4">
               <input 
