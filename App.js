@@ -301,7 +301,6 @@ const App = () => {
             
             <div className="flex items-stretch border-b-[6px] border-black">
               <div className="w-1/3 flex flex-col items-center justify-center text-4xl md:text-5xl font-black text-white py-10 text-center leading-none" style=${{ backgroundColor: finalFortune.color, textShadow: '3px 3px 0 #000' }}>
-                <img src=${CHARACTER_IMAGES[0]} alt="Character Result" className="character-img-small mb-2" />
                 ${finalFortune.rank}
               </div>
               <div className="w-2/3 bg-white p-6 flex flex-col justify-center border-l-[6px] border-black">
