@@ -10,7 +10,6 @@ const CHARACTER_IMAGES = [
   "https://github.com/aannaaart/Anna/raw/main/TE2.png"
 ];
 
-// 50 unique dinosaur parent themed fortunes
 const FORTUNES_DATA = [
   { title: "歐皇恐龍家長", sub: "2026 年你的運氣已突破次元壁，這速度連貓辣妹都跪了！", rank: "SSR+", color: "#FF0080" },
   { title: "神速恐龍家長", sub: "你不是在點擊，你是在撕裂時空！2026 全宇宙都是你的遊樂場。", rank: "SSR+", color: "#FF0080" },
@@ -285,7 +284,8 @@ const App = () => {
           <div className="bg-white border-[6px] border-black max-w-lg w-full relative shadow-[20px_20px_0px_#000] animate-in zoom-in duration-300 overflow-hidden">
             
             <div className="flex items-stretch border-b-[6px] border-black">
-              <div className="w-1/3 flex items-center justify-center text-4xl md:text-5xl font-black text-white py-10 text-center leading-none" style=${{ backgroundColor: finalFortune.color, textShadow: '3px 3px 0 #000' }}>
+              <div className="w-1/3 flex flex-col items-center justify-center text-4xl md:text-5xl font-black text-white py-10 text-center leading-none" style=${{ backgroundColor: finalFortune.color, textShadow: '3px 3px 0 #000' }}>
+                <img src=${CHARACTER_IMAGES[0]} alt="Character Result" className="character-img-small mb-2" />
                 ${finalFortune.rank}
               </div>
               <div className="w-2/3 bg-white p-6 flex flex-col justify-center border-l-[6px] border-black">
