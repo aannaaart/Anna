@@ -9,18 +9,67 @@ const CHARACTER_IMAGES = [
   "https://media.discordapp.net/attachments/1207985815070842933/1455369723536605255/TE2.png?ex=69547a2d&is=695328ad&hm=cd42d0e6d320f91ee67449c47d5232ca6e133f2f748fc37f52b14e3f08d77994&=&format=webp&quality=lossless"
 ];
 
+// 50 unique dinosaur parent themed fortunes, organized from best to worst
 const FORTUNES_DATA = [
-  { title: "運氣逆天家長", sub: "貓辣妹看著你跨越時產生的時空裂縫，決定封你為「星際執行官」。", rank: "S1", color: "#FFD700" },
-  { title: "神級好運家長", sub: "貓辣妹為你點燃了永恆之火，你就是新紀元的創世神。", rank: "S3", color: "#FFD700" },
-  { title: "天選之人家長", sub: "貓辣妹宣佈你已獲得永生不滅的魔法契印，2025年大吉大利。", rank: "S5", color: "#FFD700" },
-  { title: "運氣極佳家長", sub: "貓辣妹送你一瓶「龍息聖水」。2025 年你將是幸運的守護神。", rank: "A1", color: "#94a3b8" },
-  { title: "動作俐落家長", sub: "貓辣妹說你的動作優雅如黑豹。2025 年你會活得非常灑脫。", rank: "A5", color: "#94a3b8" },
-  { title: "普通好運家長", sub: "雖然你走得一般，但至少沒掉進黑洞裡。2025年平安喜樂。", rank: "B1", color: "#b45309" },
-  { title: "中規中矩家長", sub: "貓辣妹建議你 2025 年多泡熱水澡，有助於點擊速度提升。", rank: "B5", color: "#b45309" },
-  { title: "勉勉強強家長", sub: "貓辣妹幫你拔出卡在次元縫隙裡的尾巴，2025年請繼續加油。", rank: "C1", color: "#2563eb" },
-  { title: "亂點一通家長", sub: "你這是在跟地板吵架嗎？2025 年要學會與空氣溫柔相處才行。", rank: "C5", color: "#2563eb" },
-  { title: "運氣極差家長", sub: "貓辣妹已經把 2025 年的大門鎖上了一半，你得跑快點了。", rank: "D1", color: "#64748b" },
-  { title: "史前最慢家長", sub: "貓辣妹看你跨越時， 2025 年都快過完了，真是慢到不行。", rank: "D10", color: "#64748b" }
+  /* SSR+ (Divine: < 3.0s) - Index 0-4 */
+  { title: "歐皇恐龍家長", sub: "2026 年你的運氣已突破次元壁，這速度連貓辣妹都跪了！", rank: "SSR+", color: "#FF0080" },
+  { title: "神速恐龍家長", sub: "你不是在點擊，你是在撕裂時空！2026 全宇宙都是你的遊樂場。", rank: "SSR+", color: "#FF0080" },
+  { title: "跨位面恐龍家長", sub: "2026 年所有的彩券行都會掛上你的照片，因為你太歐了！", rank: "SSR+", color: "#FF0080" },
+  { title: "天選恐龍家長", sub: "你是被 2026 年選中的那個人，連空氣都為你讓路。", rank: "SSR+", color: "#FF0080" },
+  { title: "宇宙主宰恐龍家長", sub: "貓辣妹決定讓你直接當 2026 年的總代理，好運隨你發放。", rank: "SSR+", color: "#FF0080" },
+
+  /* SSR (Legendary: 3.0s - 5.0s) - Index 5-10 */
+  { title: "黃金恐龍家長", sub: "2026 年你走過的路都會變成金幣，這就是頂級家長的霸氣。", rank: "SSR", color: "#FFD700" },
+  { title: "閃光恐龍家長", sub: "你的存在就是一道光！2026 年所有霉運看到你都要戴墨鏡。", rank: "SSR", color: "#FFD700" },
+  { title: "霸氣恐龍家長", sub: "貓辣妹說你的氣場已經覆蓋了整個 2026，沒人敢惹你。", rank: "SSR", color: "#FFD700" },
+  { title: "凱旋恐龍家長", sub: "旗開得勝！2026 年你的每一天都是慶功宴。", rank: "SSR", color: "#FFD700" },
+  { title: "皇家恐龍家長", sub: "這種優雅與速度的結合，2026 年註定是大富大貴之年。", rank: "SSR", color: "#FFD700" },
+  { title: "傳說恐龍家長", sub: "貓辣妹幫你寫了一本自傳，標題是《如何在 2026 躺著贏》。", rank: "SSR", color: "#FFD700" },
+
+  /* SR (Super Rare: 5.0s - 8.0s) - Index 11-20 */
+  { title: "咆哮恐龍家長", sub: "2026 年你的聲音會被聽見，那是好運在向你招手！", rank: "SR", color: "#A855F7" },
+  { title: "守護恐龍家長", sub: "你在 2026 年會成為大家的幸運符，記得收服務費。", rank: "SR", color: "#A855F7" },
+  { title: "疾風恐龍家長", sub: "風起雲湧！2026 年你的效率會讓同事們集體失業。", rank: "SR", color: "#A855F7" },
+  { title: "靈動恐龍家長", sub: "貓辣妹稱讚你的身手，2026 年所有困難你都能閃開。", rank: "SR", color: "#A855F7" },
+  { title: "熱血恐龍家長", sub: "燃燒吧！2026 年你的熱情會吸引無數貴人來幫你。", rank: "SR", color: "#A855F7" },
+  { title: "鋼鐵恐龍家長", sub: "意志力驚人，2026 年就算遇到逆境你也能把它撞碎。", rank: "SR", color: "#A855F7" },
+  { title: "戰鬥恐龍家長", sub: "2026 年是你的戰場，而你已經預定了冠軍獎座。", rank: "SR", color: "#A855F7" },
+  { title: "榮耀恐龍家長", sub: "貓辣妹為你戴上 2026 的勳章，你是全家的驕傲。", rank: "SR", color: "#A855F7" },
+  { title: "執念恐龍家長", sub: "你的堅持讓 2026 年不得不給你最好的資源。", rank: "SR", color: "#A855F7" },
+  { title: "暴走恐龍家長", sub: "一旦認真起來誰都擋不住，2026 年準備大顯身手吧！", rank: "SR", color: "#A855F7" },
+
+  /* R (Rare: 8.0s - 15.0s) - Index 21-35 */
+  { title: "認真恐龍家長", sub: "2026 年雖然不是最快的，但你的一絲不苟會帶來財富。", rank: "R", color: "#3B82F6" },
+  { title: "糾結恐龍家長", sub: "別想太多了，2026 年直接衝就對了！貓辣妹在終點等你。", rank: "R", color: "#3B82F6" },
+  { title: "碎念恐龍家長", sub: "2026 年靠嘴就能發財，建議你可以考慮去當網紅。", rank: "R", color: "#3B82F6" },
+  { title: "勤奮恐龍家長", sub: "貓辣妹說：天道酬勤。2026 年你的汗水會換成鈔票。", rank: "R", color: "#3B82F6" },
+  { title: "冒險恐龍家長", sub: "2026 年多去戶外走走，好運藏在你想不到的地方。", rank: "R", color: "#3B82F6" },
+  { title: "自拍恐龍家長", sub: "2026 年你是最亮眼的風景，記得多拍照分享好運。", rank: "R", color: "#3B82F6" },
+  { title: "樂天恐龍家長", sub: "愛笑的家長運氣不會差，2026 年每天都開開心心。", rank: "R", color: "#3B82F6" },
+  { title: "購物恐龍家長", sub: "2026 年雖然花得多，但賺得更多！盡情刷卡吧。", rank: "R", color: "#3B82F6" },
+  { title: "養生恐龍家長", sub: "貓辣妹提醒你：2026 年健康就是最大的財富。", rank: "R", color: "#3B82F6" },
+  { title: "健忘恐龍家長", sub: "忘記不愉快的事，2026 年你的大腦只用來裝好運。", rank: "R", color: "#3B82F6" },
+  { title: "文藝恐龍家長", sub: "2026 年活得像首詩，雖然有點慢，但很有品味。", rank: "R", color: "#3B82F6" },
+  { title: "溫柔恐龍家長", sub: "2026 年你的溫柔會融化一切阻礙，貴人紛紛湧現。", rank: "R", color: "#3B82F6" },
+  { title: "迷糊恐龍家長", sub: "傻人有傻福，2026 年你可能會莫名其妙中大獎。", rank: "R", color: "#3B82F6" },
+  { title: "焦慮恐龍家長", sub: "放輕鬆！2026 年貓辣妹會幫你搞定所有的麻煩事。", rank: "R", color: "#3B82F6" },
+  { title: "孤傲恐龍家長", sub: "2026 年你有自己的節奏，不需要向任何人解釋。", rank: "R", color: "#3B82F6" },
+
+  /* N (Normal: > 15.0s) - Index 36-49 */
+  { title: "慢郎中恐龍家長", sub: "你在 2025 的尾巴待太久了，2026 的車都開走啦！", rank: "N", color: "#64748B" },
+  { title: "邊緣恐龍家長", sub: "貓辣妹找你找好久，原來你還在那邊慢慢爬。", rank: "N", color: "#64748B" },
+  { title: "躺平恐龍家長", sub: "2026 年你決定跟地板做朋友，運氣也跟著你躺下了。", rank: "N", color: "#64748B" },
+  { title: "佛系恐龍家長", sub: "不求名、不求利，2026 年你只要平安跨過線就滿足了。", rank: "N", color: "#64748B" },
+  { title: "瞌睡恐龍家長", sub: "跨年的鐘聲沒把你吵醒，你的 2026 是從夢中開始的。", rank: "N", color: "#64748B" },
+  { title: "遲到恐龍家長", sub: "2026 年的春節都快到了，你才終於跨過這條線。", rank: "N", color: "#64748B" },
+  { title: "迷路恐龍家長", sub: "你是去 2026 還是去 1926？貓辣妹建議你買個導航。", rank: "N", color: "#64748B" },
+  { title: "發呆恐龍家長", sub: "2026 年你可能需要一點維他命 B，提升一下你的反應。", rank: "N", color: "#64748B" },
+  { title: "銅牌恐龍家長", sub: "雖然沒拿到金牌，但 2026 年你至少參與了，對吧？", rank: "N", color: "#64748B" },
+  { title: "路人恐龍家長", sub: "你在 2026 年的背景圖裡，扮演一個非常稱職的背景。", rank: "N", color: "#64748B" },
+  { title: "土下座恐龍家長", sub: "為了這點成績，你決定向貓辣妹誠懇道歉。2026 再努力。", rank: "N", color: "#64748B" },
+  { title: "嘆氣恐龍家長", sub: "別再嘆氣了，2026 年的氣都被你嘆光了，快點擊！", rank: "N", color: "#64748B" },
+  { title: "眼神死恐龍家長", sub: "雖然跨過了，但你感覺 2026 似乎也不過如此嘛。", rank: "N", color: "#64748B" },
+  { title: "灰燼恐龍家長", sub: "你的靈魂已在 2025 燃燒殆盡，2026 請重新投胎轉運。", rank: "N", color: "#64748B" }
 ];
 
 const App = () => {
@@ -28,10 +77,12 @@ const App = () => {
   const [playerName, setPlayerName] = useState('');
   const [position, setPosition] = useState(15);
   const [time, setTime] = useState(0);
+  const [finalTime, setFinalTime] = useState(0);
   const [isJumping, setIsJumping] = useState(false);
   const [currentJumpHeight, setCurrentJumpHeight] = useState(60);
   const [imgIndex, setImgIndex] = useState(0);
   const [effects, setEffects] = useState([]);
+  const [finalFortune, setFinalFortune] = useState(null);
   
   const finishLinePercent = 75;
   const timerRef = useRef(null);
@@ -56,12 +107,50 @@ const App = () => {
     };
   }, [status]);
 
+  // Deterministic mapping: one time range = one unique result
+  const determineFortune = (s) => {
+    // Divine (SSR+): < 3.0s
+    if (s < 1.0) return FORTUNES_DATA[0];
+    if (s < 1.5) return FORTUNES_DATA[1];
+    if (s < 2.0) return FORTUNES_DATA[2];
+    if (s < 2.5) return FORTUNES_DATA[3];
+    if (s < 3.0) return FORTUNES_DATA[4];
+
+    // Legendary (SSR): 3.0s - 5.0s
+    if (s < 3.4) return FORTUNES_DATA[5];
+    if (s < 3.8) return FORTUNES_DATA[6];
+    if (s < 4.2) return FORTUNES_DATA[7];
+    if (s < 4.6) return FORTUNES_DATA[8];
+    if (s < 5.0) return FORTUNES_DATA[9];
+    if (s < 5.4) return FORTUNES_DATA[10];
+
+    // Super Rare (SR): 5.0s - 8.0s
+    const srBase = 11;
+    if (s < 8.0) {
+      const offset = Math.min(9, Math.floor((s - 5.4) / 0.3));
+      return FORTUNES_DATA[srBase + offset] || FORTUNES_DATA[20];
+    }
+
+    // Rare (R): 8.0s - 15.0s
+    const rBase = 21;
+    if (s < 15.0) {
+      const offset = Math.min(14, Math.floor((s - 8.0) / 0.5));
+      return FORTUNES_DATA[rBase + offset] || FORTUNES_DATA[35];
+    }
+
+    // Normal (N): > 15.0s
+    const nBase = 36;
+    const offset = Math.min(13, Math.floor((s - 15.0) / 1.0));
+    return FORTUNES_DATA[nBase + offset] || FORTUNES_DATA[49];
+  };
+
   const handleHop = () => {
     if (status !== GameStatus.PLAYING || isJumping) return;
 
     const rand = Math.random();
     let moveStep = 0;
 
+    // Movement logic
     if (rand < 0.45) {
       moveStep = Math.floor(Math.random() * 15) + 5; 
     } else if (rand < 0.85) {
@@ -75,34 +164,14 @@ const App = () => {
 
     const nextPos = Math.max(5, position + moveStep);
     
-    const newEffects = [
-      { id: Date.now(), x: nextPos, y: 80, type: 'sparkle' },
-    ];
-    
+    const newEffects = [{ id: Date.now(), x: nextPos, y: 80, type: 'sparkle' }];
     if (moveStep > 0) {
-      const forwardTexts = ["咻!", "躍!", "閃!", "疾!"];
-      newEffects.push({ 
-        id: Date.now() + 1, 
-        x: nextPos, 
-        y: 75, 
-        type: 'text', 
-        color: 'blue',
-        content: forwardTexts[Math.floor(Math.random() * forwardTexts.length)] 
-      });
+      newEffects.push({ id: Date.now() + 1, x: nextPos, y: 75, type: 'text', color: 'blue', content: "咻!" });
     } else if (moveStep < 0) {
-      const backwardTexts = ["咚!", "退!", "咦?"];
-      newEffects.push({ 
-        id: Date.now() + 2, 
-        x: nextPos, 
-        y: 75, 
-        type: 'text', 
-        color: 'red',
-        content: backwardTexts[Math.floor(Math.random() * backwardTexts.length)] 
-      });
+      newEffects.push({ id: Date.now() + 2, x: nextPos, y: 75, type: 'text', color: 'red', content: "咚!" });
     }
     
     setEffects(prev => [...prev, ...newEffects]);
-    
     setTimeout(() => {
       setEffects(prev => prev.filter(e => !newEffects.find(ne => ne.id === e.id)));
     }, 700);
@@ -111,6 +180,9 @@ const App = () => {
     setIsJumping(true);
     
     if (nextPos >= finishLinePercent) {
+      const winTime = time;
+      setFinalTime(winTime);
+      setFinalFortune(determineFortune(winTime));
       setStatus(GameStatus.WIN);
     }
 
@@ -129,29 +201,22 @@ const App = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [status, isJumping, position]);
+  }, [status, isJumping, position, time]);
 
   const startGame = () => {
     if (!playerName.trim()) return;
     setStatus(GameStatus.PLAYING);
+    setTime(0);
+    setFinalFortune(null);
   };
 
   const reset = () => {
     setPosition(15);
     setTime(0);
+    setFinalFortune(null);
     setStatus(GameStatus.PLAYING);
     setIsJumping(false);
-    setImgIndex(0);
-    setEffects([]);
   };
-
-  const getFortune = (s) => {
-    let index = Math.floor(s / 1.5); 
-    if (index >= FORTUNES_DATA.length) index = FORTUNES_DATA.length - 1;
-    return FORTUNES_DATA[index];
-  };
-
-  const fortune = getFortune(time);
 
   return html`
     <div className="relative w-full h-screen flex flex-col items-center justify-center p-4 overflow-hidden bg-[#fafafa]">
@@ -164,7 +229,7 @@ const App = () => {
                 沒有訣竅 全憑運氣
               </p>
               <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter leading-none">
-                跨越 2024...
+                跨越 2025...
               </h1>
             </div>
             <div className="space-y-4">
@@ -194,10 +259,10 @@ const App = () => {
 
       <div className="relative w-full max-w-5xl h-[50vh] bg-white border-[3px] border-black overflow-hidden shadow-sm">
         <div className="absolute top-1/2 left-[10%] -translate-y-1/2 text-5xl md:text-6xl font-black text-slate-200 select-none tracking-tighter">
-          2024
+          2025
         </div>
         <div className="absolute top-1/2 right-[5%] -translate-y-1/2 text-5xl md:text-6xl font-black text-slate-200 select-none tracking-tighter">
-          2025
+          2026
         </div>
 
         <div className="absolute bottom-[20%] left-0 w-full h-1 bg-black/80 z-0" />
@@ -241,40 +306,40 @@ const App = () => {
         </span>
       </div>
 
-      ${status === GameStatus.WIN && html`
+      ${status === GameStatus.WIN && finalFortune && html`
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4">
           <div className="bg-white border-[6px] border-black max-w-lg w-full relative shadow-[20px_20px_0px_#000] animate-in zoom-in duration-300 overflow-hidden">
             
             <div className="flex items-stretch border-b-[6px] border-black">
-              <div className="w-1/3 flex items-center justify-center text-6xl font-black text-white py-10" style=${{ backgroundColor: fortune.color, textShadow: '4px 4px 0 #000' }}>
-                ${fortune.rank}
+              <div className="w-1/3 flex items-center justify-center text-4xl md:text-5xl font-black text-white py-10 text-center leading-none" style=${{ backgroundColor: finalFortune.color, textShadow: '3px 3px 0 #000' }}>
+                ${finalFortune.rank}
               </div>
               <div className="w-2/3 bg-white p-6 flex flex-col justify-center border-l-[6px] border-black">
                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">
-                  2025 運勢結果
+                  2026 恐龍結算評定
                 </p>
                 <div className="mb-2">
-                   <span className="text-5xl md:text-7xl font-black text-black block tracking-tighter break-all leading-none py-1">
+                   <span className="text-4xl md:text-5xl font-black text-black block tracking-tighter break-all leading-none py-1">
                      ${playerName}
                    </span>
                 </div>
-                <p className="text-5xl font-black tracking-tighter" style=${{ color: fortune.color }}>
-                  ${time.toFixed(2)}<span className="text-2xl ml-1 opacity-50 font-black">S</span>
+                <p className="text-4xl font-black tracking-tighter" style=${{ color: finalFortune.color }}>
+                  ${finalTime.toFixed(2)}<span className="text-xl ml-1 opacity-50 font-black">S</span>
                 </p>
               </div>
             </div>
 
             <div className="p-8 space-y-4">
               <div className="flex items-center space-x-3">
-                <div className="h-12 w-3" style=${{ backgroundColor: fortune.color }} />
-                <h3 className="text-3xl md:text-4xl font-black text-black uppercase italic tracking-tighter leading-tight">
-                  ${fortune.title}
+                <div className="h-10 w-3" style=${{ backgroundColor: finalFortune.color }} />
+                <h3 className="text-2xl md:text-3xl font-black text-black uppercase italic tracking-tighter leading-tight">
+                  ${finalFortune.title}
                 </h3>
               </div>
 
               <div className="bg-slate-100 border-[3px] border-black p-6 rounded-lg">
-                <p className="text-xl font-bold text-slate-700 leading-relaxed italic">
-                  "${fortune.sub}"
+                <p className="text-lg md:text-xl font-bold text-slate-700 leading-relaxed italic">
+                  "${finalFortune.sub}"
                 </p>
               </div>
             </div>
@@ -282,10 +347,10 @@ const App = () => {
             <div className="px-8 pb-8">
               <button 
                 onClick=${reset}
-                className="w-full py-6 border-[5px] border-black text-white font-black text-3xl tracking-widest transition-all shadow-[10px_10px_0px_#000] active:shadow-none translate-y-0 active:translate-y-[10px] active:translate-x-[10px]"
-                style=${{ backgroundColor: fortune.color }}
+                className="w-full py-5 border-[5px] border-black text-white font-black text-2xl tracking-widest transition-all shadow-[8px_8px_0px_#000] active:shadow-none translate-y-0 active:translate-y-[8px] active:translate-x-[8px]"
+                style=${{ backgroundColor: finalFortune.color }}
               >
-                再試一次
+                再次挑戰時空
               </button>
             </div>
           </div>
