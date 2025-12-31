@@ -5,8 +5,8 @@ import { GameStatus } from './types.js';
 const html = htm.bind(React.createElement);
 
 const CHARACTER_IMAGES = [
-  "https://media.discordapp.net/attachments/1207985815070842933/1455369310167109632/TE1.png?ex=695479ca&is=6953284a&hm=b55aafdd0700154d1d477672d3240ea2e259a3b67d79171b622b90dc9267694a&=&format=webp&quality=lossless",
-  "https://media.discordapp.net/attachments/1207985815070842933/1455369723536605255/TE2.png?ex=69547a2d&is=695328ad&hm=cd42d0e6d320f91ee67449c47d5232ca6e133f2f748fc37f52b14e3f08d77994&=&format=webp&quality=lossless"
+  "https://raw.githubusercontent.com/aannaaart/Anna/main/TE1.png",
+  "https://raw.githubusercontent.com/aannaaart/Anna/main/TE2.png"
 ];
 
 // 50 unique dinosaur parent themed fortunes, organized from best to worst
